@@ -10,7 +10,8 @@
         file: state=directory mode=0700 dest=/root/.ssh/
 
       - name: Adding rsa-key in /root/.ssh/authorized_keys
-        copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
+        #copy: src=~/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
+        copy: src=/mnt/c/Users/Admin/.ssh/id_rsa.pub dest=/root/.ssh/authorized_keys owner=root mode=0600
         ignore_errors: yes
 
       - name: Checking DNS
@@ -27,6 +28,8 @@
 
       - name: Installing docker
         shell: curl -fsSL get.docker.com -o get-docker.sh && chmod +x get-docker.sh && ./get-docker.sh
+        args:
+          warn: false
 
       - name: Add the current user to docker group
         user: name=vagrant append=yes groups=docker

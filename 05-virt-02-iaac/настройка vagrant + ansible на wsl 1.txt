@@ -1,0 +1,14 @@
+sudo apt install ./vagrant_2.2.19_x86_64.deb
+export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/v1.0"
+
+export PATH="$PATH:/mnt/c/Windows/System32"
+
+export PATH="$PATH:/mnt/d/Oracle/VirtualBox"
+
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+
+export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/d/DevOps/virt-homeworks/05-virt-02-iaac/src/vagrant/"
+
+sudo umount /mnt/d
+
+sudo mount -t drvfs D:/ /mnt/d -o metadata

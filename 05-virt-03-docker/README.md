@@ -135,6 +135,11 @@ root@00a87f039768:/data#
 
 Соберите Docker образ с Ansible, загрузите на Docker Hub и пришлите ссылку вместе с остальными ответами к задачам.
 
+## Ответ
+
+готово:
+
+https://hub.docker.com/layers/netology/filipp0vap/netology/ansible-1.0/images/sha256-73f410a698d78685fff4325d7c40560f9da5b4f5719dd781d86edad660dc9b2c?context=explore
 
 ---
 

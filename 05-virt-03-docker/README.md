@@ -81,6 +81,9 @@ Hey, Netology
 
 - Гитлаб и докер реестр реализовал бы на отдельных вм. Но если производительность машин и пропускная способность сети позволяет можно и на одной вм. В контейнерах как мне кажется это не очень удобно хранить, только если гитлаб.
 
+
+---
+
 ## Задача 3
 
 - Запустите первый контейнер из образа ***centos*** c любым тэгом в фоновом режиме, подключив папку ```/data``` из текущей рабочей директории на хостовой машине в ```/data``` контейнера;
@@ -88,6 +91,41 @@ Hey, Netology
 - Подключитесь к первому контейнеру с помощью ```docker exec``` и создайте текстовый файл любого содержания в ```/data```;
 - Добавьте еще один файл в папку ```/data``` на хостовой машине;
 - Подключитесь во второй контейнер и отобразите листинг и содержание файлов в ```/data``` контейнера.
+
+## Ответ
+
+
+```
+PS D:\DevOps\virt-homeworks\05-virt-03-docker> docker run -it -d --name centos -v D:\DevOps\virt-homeworks\05-virt-03-docker\data:/data centos
+1cdd7d395f9214e480335dc2a4f53dd83519b4ad21b208c4a8181d621410ef05
+PS D:\DevOps\virt-homeworks\05-virt-03-docker> docker run -it -d --name debian -v D:\DevOps\virt-homeworks\05-virt-03-docker\data:/data debian
+00a87f039768529fe45e1d299fa81f90d3ac961987b633466f61a7460f0ed695
+PS D:\DevOps\virt-homeworks\05-virt-03-docker> docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS          PORTS                  NAMES
+00a87f039768   debian                          "bash"                   20 seconds ago   Up 18 seconds                          debian
+1cdd7d395f92   centos                          "/bin/bash"              2 minutes ago    Up 2 minutes                           centos
+PS D:\DevOps\virt-homeworks\05-virt-03-docker> docker exec -it centos bash
+[root@1cdd7d395f92 /]# cd data
+[root@1cdd7d395f92 data]# echo "test1" > file1
+[root@1cdd7d395f92 data]# exit
+exit
+PS D:\DevOps\virt-homeworks\05-virt-03-docker> echo "test" > data\file2
+PS D:\DevOps\virt-homeworks\05-virt-03-docker> docker exec -it debian bash
+root@00a87f039768:/# cd data
+root@00a87f039768:/data# ls -la
+total 4
+drwxrwxrwx 1 root root  512 May 29 17:36 .
+drwxr-xr-x 1 root root 4096 May 29 17:38 ..
+-rw-r--r-- 1 root root    6 May 29 17:36 file1
+-rwxrwxrwx 1 root root    6 May 29 17:35 file2
+root@00a87f039768:/data# cat file1
+test1
+root@00a87f039768:/data# cat file2
+test
+root@00a87f039768:/data#
+```
+
+---
 
 ## Задача 4 (*)
 

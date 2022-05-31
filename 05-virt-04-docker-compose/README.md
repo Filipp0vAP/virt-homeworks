@@ -26,7 +26,9 @@
 
 ## Ответ
 
+![vm](./img/vm.png)
 
+---
 
 ## Задача 3
 
@@ -37,6 +39,13 @@
 <p align="center">
   <img width="1200" height="600" src="./assets/yc_02.png">
 </p>
+
+
+## Ответ
+
+![grafana](./img/grafana.png)
+
+---
 
 ## Задача 4 (*)
 

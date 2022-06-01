@@ -56,6 +56,8 @@
 
 ## Ответ
 
+Создал вторую машину через Terraform, а через Ansible развернул docker контейнеры
+
 Добавил адрес машины в compose и джобы в prometheus.yml:
 
 ![compose](./img/compose.png)

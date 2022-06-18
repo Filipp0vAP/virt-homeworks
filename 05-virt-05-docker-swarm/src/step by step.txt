@@ -1,0 +1,6 @@
+yc init
+yc iam key create --service-account-name autoadmin --output key.json
+yc config set cloud-id b1gf79f2bpg42hs52ut3
+yc config set folder-id b1g6771tq3c82eglvo0a
+yc vpc network create --name net --labels my-label=netology --description "network for packer"
+

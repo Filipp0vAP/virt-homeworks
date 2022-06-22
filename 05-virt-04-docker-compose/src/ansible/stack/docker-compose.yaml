@@ -14,7 +14,7 @@ services:
     image: prom/prometheus:v2.17.1
     container_name: prometheus
     extra_hosts:
-     - "secondvm.filipp0vap.ru:192.168.101.7"
+     - "secondvm.filipp0vap.ru:192.168.101.10"
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus

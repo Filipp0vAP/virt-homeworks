@@ -2,4 +2,4 @@
 manager
 
 [manager]
-node01.netology.cloud ansible_host=51.250.14.215
+node01.netology.cloud ansible_host=51.250.94.185

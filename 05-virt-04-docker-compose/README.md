@@ -73,7 +73,17 @@
 
 ![compose2](./img/compose2.png)
 
-Но вот в графане так и не смог разобраться как сделать отдельный дашбоард для этих двух джоб.
+И наконец то смог сделать эти дашборды:
+
+![dashboards](./img/SecondVMDashboard.png)
+
+Cadvisor:
+
+![cadvisor2](./img/cadvisor2.png)
+
+NodeExporter:
+
+![nodeexporter2](./img/nodeexporter2.png)
 
 
 ---

@@ -9,11 +9,11 @@ export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 
 export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/d/DevOps/virt-homeworks/05-virt-02-iaac/src/vagrant/"
 
-sudo umount /d
+umount /d
 
-sudo mount -t drvfs D:/ /d -o metadata
+mount -t drvfs D:/ /d -o metadata
 
 
-sudo umount /c
+umount /c
 
-sudo mount -t drvfs C:/ /c -o metadata
+mount -t drvfs C:/ /c -o metadata

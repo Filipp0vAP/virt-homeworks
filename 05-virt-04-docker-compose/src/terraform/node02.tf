@@ -5,8 +5,8 @@ resource "yandex_compute_instance" "node02" {
   allow_stopping_for_update = true
 
   resources {
-    cores  = 8
-    memory = 8
+    cores  = 2
+    memory = 4
   }
 
   boot_disk {
@@ -24,6 +24,6 @@ resource "yandex_compute_instance" "node02" {
   }
 
   metadata = {
-    ssh-keys = "centos:${file("C:/Users/Admin/.ssh/id_rsa.pub")}"
+    ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
   }
 }

@@ -12,13 +12,38 @@
 
 Приведите получившуюся команду или docker-compose манифест.
 
+
+## Ответ
+```docker-compose
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres:12.11-alpine
+    restart: always
+    volumes:
+      - ./data:/var/lib/postgresql/data 
+      - ./backups:/var/lib/postgresql/backups
+    environment:
+      POSTGRES_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8082:8080
+
+```
+
+---
 ## Задача 2
 
 В БД из задачи 1: 
 - создайте пользователя test-admin-user и БД test_db
 - в БД test_db создайте таблицу orders и clients (спeцификация таблиц ниже)
 - предоставьте привилегии на все операции пользователю test-admin-user на таблицы БД test_db
-- создайте пользователя test-simple-user  
+- создайте пользователя test-simple-user
 - предоставьте пользователю test-simple-user права на SELECT/INSERT/UPDATE/DELETE данных таблиц БД test_db
 
 Таблица orders:
@@ -38,6 +63,80 @@
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 - список пользователей с правами над таблицами test_db
 
+## Ответ
+SQL запросы по пунктам выше:
+```sql
+CREATE DATABASE test_db;
+CREATE USER "test-admin-user";
+
+
+CREATE TABLE orders  (id SERIAL PRIMARY KEY,  наименование CHAR(50),  цена INTEGER);
+CREATE TABLE clients  (id SERIAL PRIMARY KEY,  фамилия CHAR(50),  страна проживания CHAR(50), заказ INTEGER REFERENCES orders (id));
+
+GRANT ALL ON orders, clients TO "test-admin-user";
+
+CREATE USER "test-simple-user";
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON orders, clients TO "test-simple-user";
+```
+
+- итоговый список БД после выполнения пунктов выше:
+```bash
+test_db=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ test_db   | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+(4 rows)
+
+```
+
+- описание таблиц (describe):
+```bash
+test_db=# \d orders
+                                  Table "public.orders"
+    Column    |     Type      | Collation | Nullable |              Default
+--------------+---------------+-----------+----------+------------------------------------
+ id           | integer       |           | not null | nextval('orders_id_seq'::regclass)
+ наименование | character(50) |           |          |
+ цена         | integer       |           |          |
+Indexes:
+    "orders_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "clients" CONSTRAINT "clients_заказ_fkey" FOREIGN KEY ("заказ") REFERENCES orders(id)
+
+test_db=# \d clients
+                                     Table "public.clients"
+      Column       |     Type      | Collation | Nullable |               Default
+-------------------+---------------+-----------+----------+-------------------------------------
+ id                | integer       |           | not null | nextval('clients_id_seq'::regclass)
+ фамилия           | character(50) |           |          |
+ страна проживания | character(50) |           |          |
+ заказ             | integer       |           |          |
+Indexes:
+    "clients_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "clients_заказ_fkey" FOREIGN KEY ("заказ") REFERENCES orders(id)
+
+```
+
+- SQL-запрос для выдачи списка пользователей с правами над таблицами test_db:
+```sql
+SELECT grantee, privilege_type 
+FROM information_schema.role_table_grants 
+WHERE table_name='orders' OR table_name='clients';
+```
+
+- список пользователей с правами над таблицами test_db:
+
+![users](./img/users.png)
+
+---
 ## Задача 3
 
 Используя SQL синтаксис - наполните таблицы следующими тестовыми данными:

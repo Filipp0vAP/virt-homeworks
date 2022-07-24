@@ -15,6 +15,15 @@
 - вывода описания содержимого таблиц
 - выхода из psql
 
+## Ответ
+- \q
+- \c
+- \d
+- \d+
+- \q
+
+---
+
 ## Задача 2
 
 Используя `psql` создайте БД `test_database`.
@@ -32,6 +41,25 @@
 
 **Приведите в ответе** команду, которую вы использовали для вычисления и полученный результат.
 
+## Ответ
+```sql
+
+test_database=#
+test_database=# SELECT attname
+test_database-# FROM pg_stats
+test_database-# WHERE avg_width=(
+test_database(#     SELECT max(avg_width)
+test_database(#     FROM pg_stats
+test_database(#     WHERE tablename='orders'
+test_database(#     );
+ attname
+---------
+ title
+(1 row)
+```
+
+---
+
 ## Задача 3
 
 Архитектор и администратор БД выяснили, что ваша таблица orders разрослась до невиданных размеров и
@@ -42,11 +70,63 @@
 
 Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
 
+## Ответ
+
+При изначальном проектировании таблиц можно было сделать ее секционированной, 
+```sql
+partition by range(price);
+```
+тогда не пришлось бы переименовывать исходную таблицу и переносить данные в новую.
+
+Транзакция для разделения:
+```sql
+begin;
+    CREATE TABLE orders_new (
+            id integer NOT NULL,
+            title varchar(80) NOT NULL,
+            price integer);
+
+    CREATE TABLE orders_new_1 (
+        CHECK ( price > 499 )
+    ) INHERITS (orders_new);
+
+    CREATE TABLE orders_new_2 (
+        CHECK ( price <= 499 )
+    ) INHERITS (orders_new);
+
+
+    CREATE RULE orders_insert_to_1 AS ON INSERT TO orders_new
+    WHERE ( price > 499 )
+    DO INSTEAD INSERT INTO orders_new_1 VALUES (NEW.*);
+
+    CREATE RULE orders_insert_to_2 AS ON INSERT TO orders_new
+    WHERE ( price <= 499 )
+    DO INSTEAD INSERT INTO orders_new_2 VALUES (NEW.*);
+
+    INSERT INTO orders_new (id, title, price) SELECT * FROM orders;
+commit;
+
+```
+
+---
+
 ## Задача 4
 
 Используя утилиту `pg_dump` создайте бекап БД `test_database`.
 
 Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
+
+## Ответ
+
+```bash
+pg_dump -d test_database > ./dump.sql
+```
+
+Уникальность можно добавить, дописав в файл дампа запрос:
+```sql
+CREATE INDEX orders_new_lower_idx ON public.orders_new USING btree (lower((title)::text));
+
+```
 
 ---
 

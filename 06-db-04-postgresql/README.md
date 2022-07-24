@@ -19,7 +19,7 @@
 - \q
 - \c
 - \d
-- \d+
+- \d+ tablename
 - \q
 
 ---

@@ -32,6 +32,41 @@
 
 Далее мы будем работать с данным экземпляром elasticsearch.
 
+
+## Ответ
+- Dockerfile:
+    ```
+    FROM docker.elastic.co/elasticsearch/elasticsearch:8.3.3@sha256:caef7887384d9c77f309508ce72722bf21c7991d5fe81f23eaf843d1ca891fe4
+
+    ```
+
+- dockerhub:
+    https://hub.docker.com/r/filipp0vap/elasticsearch
+
+- Ответ elasticsearch:
+    ```
+    {
+    "name": "39a8885585fa",
+    "cluster_name": "netology_test",
+    "cluster_uuid": "uubGQal1QOySv6zF2IgHng",
+    "version": {
+        "number": "8.3.3",
+        "build_flavor": "default",
+        "build_type": "docker",
+        "build_hash": "801fed82df74dbe537f89b71b098ccaff88d2c56",
+        "build_date": "2022-07-23T19:30:09.227964828Z",
+        "build_snapshot": false,
+        "lucene_version": "9.2.0",
+        "minimum_wire_compatibility_version": "7.17.0",
+        "minimum_index_compatibility_version": "7.0.0"
+    },
+    "tagline": "You Know, for Search"
+    }
+    ```
+
+
+
+
 ## Задача 2
 
 В этом задании вы научитесь:

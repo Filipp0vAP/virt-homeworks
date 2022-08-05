@@ -153,6 +153,59 @@
 Подсказки:
 - возможно вам понадобится доработать `elasticsearch.yml` в части директивы `path.repo` и перезапустить `elasticsearch`
 
+
+## Ответ
+
+- создание репо для снапшотов:
+    ```
+    PUT _snapshot/netology_backup?verify=false
+    {
+    "type": "fs",
+    "settings": {
+        "location": "/var/lib/elasticsearch/snapshots"
+    }
+    }
+
+    ```
+- Ответ:
+    ```
+    {
+    "acknowledged": true
+    }
+    ```    
+- Список индексов:
+    ```
+    green open test FIQQyWEARYG287Puaq8DHA 1 0 0 0 225b 225b
+    ```
+- Директория со снапшотом:
+    ```
+    drwxrwxrwx  3 root       root  4096 авг  5 22:33 .
+    drwxrwxrwx  6 root       root  4096 авг  5 22:33 ..
+    -rw-rw-r--  1 filipp0vap root  2993 авг  5 22:33 index-0
+    -rw-rw-r--  1 filipp0vap root     8 авг  5 22:33 index.latest
+    drwxrwxr-x 12 filipp0vap root  4096 авг  5 22:33 indices
+    -rw-rw-r--  1 filipp0vap root 27687 авг  5 22:33 meta-YTL0BClsTG6rFhz3clFbHw.dat
+    -rw-rw-r--  1 filipp0vap root   627 авг  5 22:33 snap-YTL0BClsTG6rFhz3clFbHw.dat
+
+    ```
+- список индексов:
+    ```
+    green open test-2 smFKg7YVSwyY_7azuWokMQ 1 0 0 0 225b 225b
+
+    ```
+- восстановление из снапшота:
+
+    ```
+    POST _snapshot/netology_backup/my_snapshot/_restore
+    {
+    "indices": "test"
+    }
+    ``` 
+- список индексов:
+    ```
+    green open test   GSaJihYnQ2yrWf1VAKoVtg 1 0 0 0 225b 225b
+    green open test-2 smFKg7YVSwyY_7azuWokMQ 1 0 0 0 225b 225b
+    ```
 ---
 
 ### Как cдавать задание

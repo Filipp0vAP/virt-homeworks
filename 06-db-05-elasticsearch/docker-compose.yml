@@ -1,0 +1,44 @@
+version: "2.2"
+
+services:
+  elasticsearch:
+    image: filipp0vap/elasticsearch:8.3.3
+    container_name: elasticsearch-container
+    volumes:
+    - ./elasticsearch/esdata:/var/lib/elasticsearch
+    - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+    - 9200:9200
+    - 9300:9300
+    environment:
+    - xpack.security.enabled=false
+    - "discovery.type=single-node"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 50
+
+  kibana:
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    image: filipp0vap/kibana:8.3.3
+    container_name: kibana-container
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    healthcheck:
+      test: ["CMD", "curl", "-s", "-f", "http://localhost:5601/status"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+      

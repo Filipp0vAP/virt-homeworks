@@ -11,6 +11,18 @@
 - напишите список операций, которые вы будете производить для остановки запроса пользователя
 - предложите вариант решения проблемы с долгими (зависающими) запросами в MongoDB
 
+
+## Ответ
+
+В первую очередь необходимо найти данную операцию - db.currentOp(). 
+
+После можно воспользоваться командой db.killOp(), чтобы прервать выполнение команды. 
+
+Для того, чтобы не попадать в такую ситуацию, возможно использование параметра maxTimeMS() для запросов CRUD в MongoDB.
+
+
+---
+
 ## Задача 2
 
 Перед выполнением задания познакомьтесь с документацией по [Redis latency troobleshooting](https://redis.io/topics/latency).
@@ -24,7 +36,21 @@
 - Redis блокирует операции записи
 
 Как вы думаете, в чем может быть проблема?
- 
+
+## Ответ
+
+Если я правильно понял, это не совсем проблема, а скорее особенность Redis.
+
+В документации написано следующее:
+
+    if the database has many, many keys expiring in the same second, and these make up at least 25% of the current population of keys with an expire set, Redis can block in order to get the percentage of keys already expired below 25%.
+
+    This approach is needed in order to avoid using too much memory for keys that are already expired, and usually is absolutely harmless since it's strange that a big number of keys are going to expire in the same exact second, but it is not impossible that the user used EXPIREAT extensively with the same Unix time.
+
+Если вкратце и по русски как я это понял: "Если Redis видит что после очистки просроченных ключей их общее количество по прежнему больше 25%, он может заблокировать операции записи до тех пор пока не очистит достаточно ключей чтоб снизить процент просроченных ниже 25%"
+
+Так что никакой проблемы нет, Redis очистится чтобы не занимать память на просроченные ключи и продолжит работу.
+
 ## Задача 3
 
 Перед выполнением задания познакомьтесь с документацией по [Common Mysql errors](https://dev.mysql.com/doc/refman/8.0/en/common-errors.html).

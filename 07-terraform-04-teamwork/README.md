@@ -51,8 +51,8 @@
 
 ## Ответ
 
-- [server.yml](.\server.yml)
-- [atlantis.yaml](.\atlantis.yaml)
+- [server.yml](./server.yaml)
+- [atlantis.yaml](./atlantis.yaml)
 
 ---
 

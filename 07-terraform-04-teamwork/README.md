@@ -72,21 +72,21 @@
 Для яндекса использовал модуль написанный Сергеем Андрюниным
 
 Чуток поправил под себя:
-- [Модуль](.\terraform\modules\instance.tf)
+- [Модуль](./terraform/modules/instance.tf)
 
 И основные файлы конфига:
-- [главный файл](.\terraform\instances.tf)
-- [vpc](.\terraform\vpc.tf)
-- [provider](.\terraform\provider.tf)
+- [главный файл](./terraform/instances.tf)
+- [vpc](./terraform/vpc.tf)
+- [provider](./terraform/provider.tf)
 
 Скрин успешного применения конфига:
-![ModuleApply1](.\img\ModuleApply1.png)
+![ModuleApply1](./img/ModuleApply1.png)
 
-![ModuleApply2](.\img\ModuleApply2.png)
+![ModuleApply2](./img/ModuleApply2.png)
 
 И скрин консоли облака с новыми сущностями:
 
-![ModuleConsole](.\img\ModuleConsole.png)
+![ModuleConsole](./img/ModuleConsole.png)
 
 
 Стал бы я использовать этот модуль в работе?

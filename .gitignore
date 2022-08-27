@@ -73,8 +73,7 @@ override.tf.json
 terraform.rc
 .terraform.lock*
 key.json
-variables.tf
-step_by_step.txt
+
 
 05-virt-02-iaac/src/vagrant/.vagrant.d/
 05-virt-05-docker-swarm/src/tokens_and_ids.txt

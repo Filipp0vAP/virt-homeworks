@@ -1,0 +1,16 @@
+yc init
+yc iam key create --service-account-name autoadmin --output key.json
+yc config set cloud-id id
+yc config set folder-id id
+yc vpc network create --name net --labels my-label=netology --description "network for packer"
+yc vpc subnet create --name my-subnet-a --zone ru-central1-a --range 10.1.2.0/24 --network-name net --description "mu subnet for packer"
+packer build packer/centos-7-base.json
+yc vpc subnet delete --name my-subnet-a
+yc vpc network create --name net 
+
+terraform init
+terraform validate
+terraform plan
+terraform apply -auto-approve 
+
+terraform apply -destroy  -auto-approve

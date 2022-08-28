@@ -18,7 +18,22 @@
     * С каким другим параметром конфликтует `name`? Приложите строчку кода, в которой это указано.
     * Какая максимальная длина имени? 
     * Какому регулярному выражению должно подчиняться имя? 
+
+## Ответ
+1. Где перечислены все доступные `resource` и `data_source` :
+    - [resource](https://github.com/hashicorp/terraform-provider-aws/blob/main/internal/provider/provider.go#L923)
+    - [data_sourece](https://github.com/hashicorp/terraform-provider-aws/blob/main/internal/provider/provider.go#L414)
+
+1. Для создания очереди сообщений SQS используется ресурс `aws_sqs_queue` у которого есть параметр `name`. :
+    - У `name` конфликт с `name_prefix` - [conflict](https://github.com/hashicorp/terraform-provider-aws/blob/main/internal/service/sqs/queue.go#L87)
+    - Какая максимальная длина имени? и Какому регулярному выражению должно подчиняться имя?
     
+        В коде к сожалению не нашел, но в документации написано  следующее: Queue names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 80 characters long. For a FIFO (first-in-first-out) queue, the name must end with the .fifo suffix.
+
+        Следовательно мы можем проверить будет ли у нас ошибка с большим количеством символов или большими буквами, если нет, то документация не верная и в коде нет этих условий. Если будет ошибка значит все таки где то в коде это указано, но может быть не так явно.
+
+---
+
 ## Задача 2. (Не обязательно) 
 В рамках вебинара и презентации мы разобрали как создать свой собственный провайдер на примере кофемашины. 
 Также вот официальная документация о создании провайдера: 

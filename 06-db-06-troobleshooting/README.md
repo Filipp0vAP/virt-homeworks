@@ -27,8 +27,6 @@
  
 ## Задача 3
 
-Перед выполнением задания познакомьтесь с документацией по [Common Mysql errors](https://dev.mysql.com/doc/refman/8.0/en/common-errors.html).
-
 Вы подняли базу данных MySQL для использования в гис-системе. При росте количества записей, в таблицах базы,
 пользователи начали жаловаться на ошибки вида:
 ```python
@@ -41,7 +39,6 @@ InterfaceError: (InterfaceError) 2013: Lost connection to MySQL server during qu
 
 ## Задача 4
 
-Перед выполнением задания ознакомтесь со статьей [Common PostgreSQL errors](https://www.percona.com/blog/2020/06/05/10-common-postgresql-errors/) из блога Percona.
 
 Вы решили перевести гис-систему из задачи 3 на PostgreSQL, так как прочитали в документации, что эта СУБД работает с 
 большим объемом данных лучше, чем MySQL.
